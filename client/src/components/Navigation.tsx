@@ -22,57 +22,56 @@ export default function Navigation() {
 
   return (
     <nav 
-      className="fixed top-0 w-full z-50 transition-all duration-300 bg-black/10 backdrop-blur-md border-b border-white/10"
+      className="fixed top-0 w-full z-50 transition-all duration-300"
       data-testid="navigation"
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
+        <div className="bg-black/20 backdrop-blur-md border border-white/10 rounded-full px-8 py-3 flex items-center justify-between">
           <div 
-            className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent cursor-pointer"
+            className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent cursor-pointer"
             onClick={() => scrollToSection("home")}
             data-testid="logo"
           >
             AI.Expert
           </div>
           
-          <div className="hidden md:flex space-x-8" data-testid="nav-links">
+          <div className="hidden md:flex items-center space-x-8" data-testid="nav-links">
             <button 
               onClick={() => scrollToSection("home")}
-              className="nav-link text-foreground hover:text-accent"
+              className="text-sm text-white/80 hover:text-white transition-colors duration-200"
               data-testid="link-home"
             >
-              Home
+              HOME
             </button>
             <button 
               onClick={() => scrollToSection("portfolio")}
-              className="nav-link text-foreground hover:text-accent"
+              className="text-sm text-white/80 hover:text-white transition-colors duration-200"
               data-testid="link-portfolio"
             >
-              Portfolio
+              FEATURES
             </button>
             <button 
               onClick={() => scrollToSection("services")}
-              className="nav-link text-foreground hover:text-accent"
+              className="text-sm text-white/80 hover:text-white transition-colors duration-200"
               data-testid="link-services"
             >
-              Services
+              USE CASES
             </button>
             <button 
               onClick={() => scrollToSection("contact")}
-              className="nav-link text-foreground hover:text-accent"
+              className="text-sm text-white/80 hover:text-white transition-colors duration-200"
               data-testid="link-contact"
             >
-              Contact
+              FAQ
+            </button>
+            <button 
+              onClick={() => scrollToSection("portfolio")}
+              className="bg-white/10 hover:bg-white/20 text-white text-sm px-4 py-2 rounded-full transition-all duration-200"
+              data-testid="button-next-section"
+            >
+              NEXT SECTION
             </button>
           </div>
-          
-          <Button 
-            onClick={() => scrollToSection("contact")}
-            className="bg-primary hover:bg-accent text-primary-foreground font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
-            data-testid="button-get-started"
-          >
-            Get Started
-          </Button>
         </div>
       </div>
     </nav>
