@@ -142,7 +142,7 @@ export default function ChatInterface() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask me anything about AI automation..."
-            className="flex-1 bg-background/50 border-border text-foreground placeholder:text-muted-foreground"
+            className="flex-1 bg-background/50 border-border text-gray-800 placeholder:text-muted-foreground"
             disabled={isLoading}
             data-testid="chat-input"
           />
