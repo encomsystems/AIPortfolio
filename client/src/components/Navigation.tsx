@@ -25,8 +25,8 @@ export default function Navigation() {
       className="fixed top-0 w-full z-50 transition-all duration-300"
       data-testid="navigation"
     >
-      <div className="max-w-7xl mx-auto px-6 py-4">
-        <div className="bg-black/20 backdrop-blur-md border border-white/10 rounded-full px-8 py-3 flex items-center justify-between">
+      <div className="flex justify-center px-6 py-4">
+        <div className="bg-black/20 backdrop-blur-md border border-white/10 rounded-full px-8 py-3 flex items-center space-x-12">
           <div 
             className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent cursor-pointer"
             onClick={() => scrollToSection("home")}
