@@ -10,9 +10,17 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Navigation />
       <HeroSection />
-      <PortfolioSection />
-      <ServicesSection />
-      <ContactSection />
+      <div className="max-w-7xl mx-auto px-6 space-y-8 py-8">
+        <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-3xl overflow-hidden">
+          <PortfolioSection />
+        </div>
+        <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-3xl overflow-hidden">
+          <ServicesSection />
+        </div>
+        <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-3xl overflow-hidden">
+          <ContactSection />
+        </div>
+      </div>
       <Footer />
     </div>
   );

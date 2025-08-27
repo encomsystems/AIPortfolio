@@ -77,7 +77,7 @@ export default function HeroSection() {
           <div className="relative animate-slide-up" data-testid="hero-mockup">
             <div className="relative">
               {/* Main Device Mockup */}
-              <div className="bg-gradient-to-br from-card to-secondary p-8 rounded-3xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 animate-float">
+              <div className="bg-gradient-to-br from-card to-secondary p-8 rounded-3xl shadow-2xl">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="w-3 h-3 bg-red-500 rounded-full"></div>
@@ -101,8 +101,8 @@ export default function HeroSection() {
               </div>
 
               {/* Floating Elements */}
-              <div className="absolute -top-8 -right-8 w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl shadow-lg animate-float-delayed opacity-80"></div>
-              <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl shadow-lg animate-float opacity-60"></div>
+              <div className="absolute -top-8 -right-8 w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl shadow-lg opacity-80"></div>
+              <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl shadow-lg opacity-60"></div>
             </div>
           </div>
         </div>

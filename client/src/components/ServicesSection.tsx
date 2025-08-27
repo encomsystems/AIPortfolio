@@ -3,10 +3,9 @@ import { Link, Settings, MessageSquare } from "lucide-react";
 
 export default function ServicesSection() {
   return (
-    <section id="services" className="py-24 gradient-bg relative" data-testid="services-section">
-      <FloatingElements />
+    <section id="services" className="py-16 relative" data-testid="services-section">
       
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
             AI Services &{" "}

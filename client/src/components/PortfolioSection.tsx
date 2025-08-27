@@ -1,7 +1,7 @@
 export default function PortfolioSection() {
   return (
-    <section id="portfolio" className="py-24 bg-background relative" data-testid="portfolio-section">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="portfolio" className="py-16 relative" data-testid="portfolio-section">
+      <div className="px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
             AI Solutions{" "}
