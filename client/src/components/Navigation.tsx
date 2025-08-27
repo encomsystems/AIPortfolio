@@ -66,10 +66,10 @@ export default function Navigation() {
             </button>
             <button 
               onClick={() => scrollToSection("portfolio")}
-              className="bg-white/10 hover:bg-white/20 text-white text-sm px-4 py-2 rounded-full transition-all duration-200"
-              data-testid="button-next-section"
+              className="text-sm text-white/80 hover:text-white transition-colors duration-200"
+              data-testid="button-portfolio"
             >
-              NEXT SECTION
+              PORTFOLIO
             </button>
           </div>
         </div>
