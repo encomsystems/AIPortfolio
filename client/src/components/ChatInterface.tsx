@@ -108,7 +108,7 @@ export default function ChatInterface() {
               className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
                 message.sender === "user"
                   ? "bg-primary text-primary-foreground ml-auto"
-                  : "bg-secondary text-black"
+                  : "bg-secondary text-secondary-foreground"
               }`}
               data-testid={`message-${message.sender}`}
             >
