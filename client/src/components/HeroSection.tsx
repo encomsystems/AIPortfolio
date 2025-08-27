@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import FloatingElements from "./FloatingElements";
+import ChatInterface from "./ChatInterface";
 
 export default function HeroSection() {
   const scrollToSection = (sectionId: string) => {
@@ -73,33 +74,11 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right Content - 3D Mockup */}
+          {/* Right Content - Live AI Chat */}
           <div className="relative animate-slide-up" data-testid="hero-mockup">
             <div className="relative">
-              {/* Main Device Mockup */}
-              <div className="bg-gradient-to-br from-card to-secondary p-8 rounded-3xl shadow-2xl">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="text-xs text-muted-foreground">AI Dashboard</div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="h-2 bg-gradient-to-r from-primary to-accent rounded-full"></div>
-                    <div className="h-2 bg-gradient-to-r from-accent to-primary rounded-full w-3/4"></div>
-                    <div className="h-2 bg-gradient-to-r from-primary to-accent rounded-full w-1/2"></div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 pt-4">
-                    <div className="h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center">
-                      <span className="text-xs font-medium">Automation</span>
-                    </div>
-                    <div className="h-16 bg-gradient-to-br from-accent/20 to-primary/20 rounded-lg flex items-center justify-center">
-                      <span className="text-xs font-medium">AI Chat</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              <ChatInterface />
+              
               {/* Floating Elements */}
               <div className="absolute -top-8 -right-8 w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl shadow-lg opacity-80"></div>
               <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl shadow-lg opacity-60"></div>
