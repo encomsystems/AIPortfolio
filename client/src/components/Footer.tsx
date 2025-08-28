@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           <div>
             <div className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4">
-              AI.Expert
+              AI.ConsHub
             </div>
             <p className="text-muted-foreground">
               Transforming businesses with cutting-edge AI solutions and intelligent automation.
@@ -31,7 +31,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-border pt-8 text-center text-muted-foreground text-sm">
-          © 2024 AI.Expert. All rights reserved. • Powered by cutting-edge AI technology
+          © 2024 AI.ConsHub. All rights reserved. • Powered by cutting-edge AI technology
         </div>
       </div>
     </footer>
