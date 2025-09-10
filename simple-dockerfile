@@ -1,0 +1,11 @@
+FROM node:18-alpine
+WORKDIR /app
+
+# Install only express directly without package.json
+RUN npm install express@4.21.2
+
+# Copy the built backend
+COPY index.js ./
+
+EXPOSE 5000
+CMD ["node", "index.js"]
