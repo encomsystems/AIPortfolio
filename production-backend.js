@@ -77,7 +77,7 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
-// AI Chat endpoint
+// AI Chat endpoint - connected to n8n
 app.post("/api/chat", async (req, res) => {
   try {
     const { message } = req.body;
@@ -87,34 +87,44 @@ app.post("/api/chat", async (req, res) => {
       });
     }
 
-    let response = "";
-    const lowerMessage = message.toLowerCase();
+    // Send message to n8n webhook
+    // You'll need to replace 'YOUR_WEBHOOK_ID' with your actual n8n webhook ID
+    const n8nWebhookUrl = `https://n8n.aiconshub.com/webhook/YOUR_WEBHOOK_ID`;
     
-    if (lowerMessage.includes("automation") || lowerMessage.includes("workflow")) {
-      response = "I can help you implement intelligent process automation using n8n workflows. We can connect your CRM, ERP, and other business tools to automate up to 80% of repetitive tasks. Would you like to discuss your specific automation needs?";
-    } else if (lowerMessage.includes("chat") || lowerMessage.includes("ai assistant")) {
-      response = "I specialize in building conversational AI systems using advanced NLP models and voice AI with Eleven Labs. These systems achieve 85% first-contact resolution rates. What kind of customer interactions would you like to automate?";
-    } else if (lowerMessage.includes("app") || lowerMessage.includes("dashboard")) {
-      response = "I develop custom AI applications with Flutter and React frontends, including real-time dashboards and AI tutors. These apps integrate seamlessly with your existing systems. What type of application are you envisioning?";
-    } else if (lowerMessage.includes("api") || lowerMessage.includes("integration")) {
-      response = "I excel at API integration and orchestration, connecting electronic invoice systems, multimedia platforms, and enterprise services into unified AI-powered workflows. What systems do you need to connect?";
-    } else if (lowerMessage.includes("rag") || lowerMessage.includes("document")) {
-      response = "I can implement RAG (Retrieval-Augmented Generation) pipelines using Elastic and Qdrant that process 100,000+ documents daily with 95% accuracy. This creates powerful knowledge bases for your AI systems. What documents do you need to process?";
-    } else if (lowerMessage.includes("avatar") || lowerMessage.includes("training")) {
-      response = "I create AI avatar multi-language training systems using HeyGen and D-ID platforms. These systems deliver personalized training to each employee and can reduce operational costs by 75%. What kind of training content do you have?";
-    } else if (lowerMessage.includes("hello") || lowerMessage.includes("hi")) {
-      response = "Hello! I'm excited to discuss how AI can transform your business. I specialize in process automation, conversational AI, custom applications, and more. What's your biggest operational challenge right now?";
-    } else {
-      response = "That's an interesting question! Based on my expertise in AI automation, I can help you with process automation (80% task reduction), conversational AI systems (85% resolution rate), custom AI applications, API integrations, RAG systems, and AI avatar training. How can I specifically assist with your business needs?";
+    try {
+      const n8nResponse = await fetch(n8nWebhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: message,
+          timestamp: new Date().toISOString(),
+          source: 'portfolio_chat'
+        })
+      });
+
+      if (!n8nResponse.ok) {
+        throw new Error(`n8n webhook returned ${n8nResponse.status}`);
+      }
+
+      const n8nData = await n8nResponse.json();
+      
+      // Return the AI response from n8n
+      res.status(200).json({
+        response: n8nData.response || n8nData.message || "I received your message but couldn't generate a response. Please try again.",
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (n8nError) {
+      console.error("Error calling n8n webhook:", n8nError);
+      
+      // Fallback response if n8n is unavailable
+      res.status(200).json({
+        response: "I'm currently experiencing technical difficulties with my AI system. Please try again in a moment, or feel free to contact me directly through the contact form.",
+        timestamp: new Date().toISOString()
+      });
     }
-
-    // Simulate processing time
-    await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1500));
-
-    res.status(200).json({
-      response,
-      timestamp: new Date().toISOString()
-    });
 
   } catch (error) {
     console.error("Error processing chat message:", error);
