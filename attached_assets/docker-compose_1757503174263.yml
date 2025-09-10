@@ -1,0 +1,29 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    networks:
+      - shared-network  # Connect to the same network as Traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nginx.rule=Host(`aiconshub.com`) || Host(`nginx.aiconshub.com`)
+      - traefik.http.routers.nginx.tls=true
+      - traefik.http.routers.nginx.entrypoints=web,websecure
+      - traefik.http.routers.nginx.tls.certresolver=mytlschallenge
+      - traefik.http.services.nginx.loadbalancer.server.port=80
+    environment:
+      - NGINX_HOST=aiconshub.com nginx.aiconshub.com
+    volumes:
+      - $PWD/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - $PWD/main:/usr/share/nginx/html/main:ro
+      - $PWD/nginx:/usr/share/nginx/html/nginx:ro
+
+volumes:
+  nginx_data:
+    external: true
+
+networks:
+  shared-network:
+    external: true
+    name: root_default
