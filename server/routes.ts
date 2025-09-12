@@ -83,8 +83,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
         const n8nData = await n8nResponse.json();
         
-        // Try multiple possible response field names
-        const aiResponse = n8nData.response || 
+        // Handle n8n array response format: [{"output": "response"}]
+        const aiResponse = Array.isArray(n8nData) && n8nData[0]?.output || 
+                          n8nData.response || 
                           n8nData.message || 
                           n8nData.text || 
                           n8nData.output || 
