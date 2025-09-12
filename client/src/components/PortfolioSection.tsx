@@ -28,22 +28,28 @@ export default function PortfolioSection() {
                 <div className="text-3xl metric-number font-bold" data-testid="metric-automation-80">80%</div>
               </div>
               
-              {/* Mock Workflow Visualization */}
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center space-x-3">
-                  <div className="w-4 h-4 bg-primary rounded-full animate-pulse"></div>
-                  <div className="h-2 bg-gradient-to-r from-primary/50 to-transparent rounded-full flex-1"></div>
-                  <div className="px-3 py-1 bg-primary/20 rounded-full text-xs">CRM</div>
+              {/* Automation Progress Indicators */}
+              <div className="space-y-3 mb-6">
+                <div className="flex items-center justify-between text-sm">
+                  <span>Process Automation</span>
+                  <span className="text-green-400">✓ Active</span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-4 h-4 bg-accent rounded-full animate-pulse" style={{animationDelay: "0.5s"}}></div>
-                  <div className="h-2 bg-gradient-to-r from-accent/50 to-transparent rounded-full flex-1"></div>
-                  <div className="px-3 py-1 bg-accent/20 rounded-full text-xs">ERP</div>
+                <div className="w-full bg-secondary rounded-full h-2">
+                  <div className="bg-gradient-to-r from-primary to-accent h-2 rounded-full w-4/5 animate-pulse"></div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-4 h-4 bg-primary rounded-full animate-pulse" style={{animationDelay: "1s"}}></div>
-                  <div className="h-2 bg-gradient-to-r from-primary/50 to-transparent rounded-full flex-1"></div>
-                  <div className="px-3 py-1 bg-primary/20 rounded-full text-xs">Google Workspace</div>
+                <div className="grid grid-cols-3 gap-2 text-xs text-center">
+                  <div className="bg-primary/20 p-2 rounded">
+                    <div className="font-bold">80%</div>
+                    <div className="text-muted-foreground">Task Reduction</div>
+                  </div>
+                  <div className="bg-accent/20 p-2 rounded">
+                    <div className="font-bold">24/7</div>
+                    <div className="text-muted-foreground">Runtime</div>
+                  </div>
+                  <div className="bg-primary/20 p-2 rounded">
+                    <div className="font-bold">n8n</div>
+                    <div className="text-muted-foreground">Platform</div>
+                  </div>
                 </div>
               </div>
 
