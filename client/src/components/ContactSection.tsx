@@ -18,9 +18,26 @@ export default function ContactSection() {
     }
   };
 
+  const scrollToChatInterface = () => {
+    const chatInterface = document.querySelector('[data-testid="chat-interface"]');
+    if (chatInterface) {
+      const navHeight = 80; // Fixed navigation bar height
+      const rect = chatInterface.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const elementTop = rect.top + scrollTop;
+      // Position chat interface at the top of viewport (with nav offset)
+      const offsetPosition = elementTop - navHeight - 20; // Extra 20px padding
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  };
+
   const handleScheduleConsultation = () => {
-    // Scroll to chat section (in hero/home section)
-    scrollToSection("home");
+    // Scroll directly to chat interface
+    scrollToChatInterface();
     
     // Wait for scroll to complete, then trigger AI consultation
     setTimeout(() => {
