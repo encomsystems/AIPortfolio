@@ -16,7 +16,7 @@ export default function Navigation() {
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
-      const navHeight = 80; // Fixed navigation bar height
+      const navHeight = 80;
       const rect = section.getBoundingClientRect();
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const elementTop = rect.top + scrollTop;
