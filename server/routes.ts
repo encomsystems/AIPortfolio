@@ -81,19 +81,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           throw new Error(`n8n webhook returned ${n8nResponse.status}`);
         }
 
-        // Get response text first for debugging
-        const responseText = await n8nResponse.text();
-        console.log(`[DEBUG] n8n raw response: ${responseText}`);
-        
-        let n8nData;
-        try {
-          n8nData = JSON.parse(responseText);
-          console.log(`[DEBUG] n8n parsed JSON:`, n8nData);
-          console.log(`[DEBUG] Available fields:`, Object.keys(n8nData));
-        } catch (parseError) {
-          console.log(`[DEBUG] n8n JSON parse error:`, parseError);
-          throw new Error(`Invalid JSON response from n8n: ${responseText.substring(0, 200)}...`);
-        }
+        const n8nData = await n8nResponse.json();
         
         // Try multiple possible response field names
         const aiResponse = n8nData.response || 
@@ -105,10 +93,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
                           n8nData.content ||
                           (n8nData.data && (n8nData.data.response || n8nData.data.message || n8nData.data.text));
         
-        console.log(`[DEBUG] Final AI response:`, aiResponse);
-        
         res.status(200).json({
-          response: aiResponse || "I received your message but couldn't generate a response. Please try again.",
+          response: aiResponse || "I received your message but the AI assistant didn't generate a response. This might be a configuration issue with the n8n workflow.",
           timestamp: new Date().toISOString()
         });
 
