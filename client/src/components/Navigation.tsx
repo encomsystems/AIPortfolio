@@ -14,22 +14,18 @@ export default function Navigation() {
   }, []);
 
   const scrollToSection = (sectionId: string) => {
-    console.log("Attempting to scroll to:", sectionId);
     const section = document.getElementById(sectionId);
     if (section) {
-      console.log("Section found:", section);
-      const navHeight = 100; // Account for fixed navigation bar height
-      const elementPosition = section.offsetTop;
-      const offsetPosition = elementPosition - navHeight;
-      
-      console.log("Element position:", elementPosition, "Offset position:", offsetPosition);
+      const navHeight = 80; // Fixed navigation bar height
+      const rect = section.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const elementTop = rect.top + scrollTop;
+      const offsetPosition = elementTop - navHeight;
 
       window.scrollTo({
         top: offsetPosition,
         behavior: "smooth"
       });
-    } else {
-      console.log("Section not found:", sectionId);
     }
   };
 
