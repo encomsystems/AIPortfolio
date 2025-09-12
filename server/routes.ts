@@ -83,11 +83,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
         const n8nData = await n8nResponse.json();
         
-        // Debug: Log what n8n actually returns
-        console.log("n8n response data:", JSON.stringify(n8nData, null, 2));
+        // Debug: Log what n8n actually returns with more detail
+        console.error("🔍 n8n RESPONSE DEBUG:", JSON.stringify(n8nData, null, 2));
+        console.error("🔍 Available fields:", Object.keys(n8nData));
+        
+        // Try multiple possible response field names
+        const aiResponse = n8nData.response || 
+                          n8nData.message || 
+                          n8nData.text || 
+                          n8nData.output || 
+                          n8nData.result ||
+                          n8nData.ai_response ||
+                          n8nData.content ||
+                          (n8nData.data && (n8nData.data.response || n8nData.data.message || n8nData.data.text));
         
         res.status(200).json({
-          response: n8nData.response || n8nData.message || "I received your message but couldn't generate a response. Please try again.",
+          response: aiResponse || "I received your message but couldn't generate a response. Please try again.",
           timestamp: new Date().toISOString()
         });
 
