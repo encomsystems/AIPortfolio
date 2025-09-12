@@ -1,9 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { SiLinkedin } from "react-icons/si";
+import { useRef, useEffect } from "react";
 import FloatingElements from "./FloatingElements";
-import ChatInterface from "./ChatInterface";
+import ChatInterface, { type ChatInterfaceRef } from "./ChatInterface";
 
 export default function HeroSection() {
+  const chatRef = useRef<ChatInterfaceRef>(null);
+
+  // Expose chat interface globally for ContactSection
+  useEffect(() => {
+    (window as any).chatInterface = chatRef.current;
+    return () => {
+      delete (window as any).chatInterface;
+    };
+  }, []);
+
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -89,7 +100,7 @@ export default function HeroSection() {
           {/* Right Content - Live AI Chat */}
           <div className="relative animate-slide-up" data-testid="hero-mockup">
             <div className="relative">
-              <ChatInterface />
+              <ChatInterface ref={chatRef} />
               
               {/* Floating Elements */}
               <div className="absolute -top-8 -right-8 w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl shadow-lg opacity-80"></div>

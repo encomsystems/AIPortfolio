@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useImperativeHandle, forwardRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, Bot, User, Loader } from "lucide-react";
@@ -10,7 +10,11 @@ interface Message {
   timestamp: Date;
 }
 
-export default function ChatInterface() {
+interface ChatInterfaceRef {
+  sendMessage: (message: string) => void;
+}
+
+const ChatInterface = forwardRef<ChatInterfaceRef>((props, ref) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -21,19 +25,82 @@ export default function ChatInterface() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (shouldAutoScroll) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, shouldAutoScroll]);
+
+  // Expose methods to parent components
+  useImperativeHandle(ref, () => ({
+    sendMessage: (message: string) => {
+      setInput(message);
+      setShouldAutoScroll(true); // Enable auto-scroll for this interaction
+      
+      // Auto-submit after a short delay
+      setTimeout(() => {
+        if (message.trim()) {
+          // Create a synthetic form submission
+          const userMessage: Message = {
+            id: Date.now().toString(),
+            content: message,
+            sender: "user",
+            timestamp: new Date()
+          };
+          
+          setMessages(prev => [...prev, userMessage]);
+          setInput("");
+          setIsLoading(true);
+          
+          // Send to backend
+          fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message }),
+          })
+          .then(response => response.json())
+          .then(data => {
+            const aiMessage: Message = {
+              id: (Date.now() + 1).toString(),
+              content: data.response || "I received your message but couldn't generate a response. Please try again.",
+              sender: "ai",
+              timestamp: new Date()
+            };
+            setMessages(prev => [...prev, aiMessage]);
+          })
+          .catch(error => {
+            console.error('Chat error:', error);
+            const errorMessage: Message = {
+              id: (Date.now() + 1).toString(),
+              content: "I'm sorry, I'm having trouble connecting to the AI service. Please try again later.",
+              sender: "ai",
+              timestamp: new Date()
+            };
+            setMessages(prev => [...prev, errorMessage]);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+        }
+      }, 1500);
+    }
+  }), []);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
+    
+    // Disable auto-scroll on manual user interaction
+    setShouldAutoScroll(false);
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -140,7 +207,14 @@ export default function ChatInterface() {
         <div className="flex space-x-2">
           <Input
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              setInput(e.target.value);
+              // Re-enable auto-scroll when user starts typing manually
+              if (e.target.value === '') {
+                setShouldAutoScroll(true);
+              }
+            }}
+            onFocus={() => setShouldAutoScroll(false)}
             placeholder="Ask me anything about AI automation..."
             className="flex-1 bg-background/50 border-border text-gray-800 placeholder:text-muted-foreground"
             disabled={isLoading}
@@ -158,4 +232,9 @@ export default function ChatInterface() {
       </form>
     </div>
   );
-}
+});
+
+ChatInterface.displayName = "ChatInterface";
+
+export default ChatInterface;
+export type { ChatInterfaceRef };

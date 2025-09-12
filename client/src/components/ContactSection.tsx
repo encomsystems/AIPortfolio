@@ -24,28 +24,27 @@ export default function ContactSection() {
     
     // Wait for scroll to complete, then trigger AI consultation
     setTimeout(() => {
-      const chatInput = document.querySelector('[data-testid="chat-input"]') as HTMLInputElement;
-      const chatForm = chatInput?.closest('form');
+      const consultationMessage = "I'd like to schedule a consultation to discuss my AI automation needs and potential solutions for my business.";
       
-      if (chatInput && chatForm) {
-        // Set consultation message
-        const consultationMessage = "I'd like to schedule a consultation to discuss my AI automation needs and potential solutions for my business.";
-        chatInput.value = consultationMessage;
-        
-        // Trigger input change event
-        const event = new Event('input', { bubbles: true });
-        chatInput.dispatchEvent(event);
-        
-        // Focus on the input
-        chatInput.focus();
-        
-        // Auto-submit after a short delay to let user see the message
-        setTimeout(() => {
-          const sendButton = chatForm.querySelector('[data-testid="chat-send-button"]') as HTMLButtonElement;
-          if (sendButton && !sendButton.disabled) {
-            sendButton.click();
-          }
-        }, 1500);
+      // Use the chat interface's sendMessage method
+      if ((window as any).chatInterface?.sendMessage) {
+        (window as any).chatInterface.sendMessage(consultationMessage);
+      } else {
+        console.log("Chat interface not available, trying fallback method");
+        // Fallback: try to trigger manually if ref approach fails
+        const chatInput = document.querySelector('[data-testid="chat-input"]') as HTMLInputElement;
+        if (chatInput) {
+          chatInput.value = consultationMessage;
+          const event = new Event('input', { bubbles: true });
+          chatInput.dispatchEvent(event);
+          
+          setTimeout(() => {
+            const sendButton = document.querySelector('[data-testid="chat-send-button"]') as HTMLButtonElement;
+            if (sendButton && !sendButton.disabled) {
+              sendButton.click();
+            }
+          }, 1500);
+        }
       }
     }, 1000); // Wait 1 second for scroll to complete
   };
