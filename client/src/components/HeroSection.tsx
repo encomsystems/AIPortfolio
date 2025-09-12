@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { SiLinkedin } from "react-icons/si";
 import FloatingElements from "./FloatingElements";
 import ChatInterface from "./ChatInterface";
 
@@ -50,10 +51,12 @@ export default function HeroSection() {
               </Button>
               <Button
                 variant="outline"
-                className="border-border hover:border-accent px-8 py-4 text-lg font-semibold text-foreground hover:text-accent transition-all duration-300"
-                data-testid="button-download-cv"
+                className="border-border hover:border-accent px-8 py-4 text-lg font-semibold text-foreground hover:text-accent transition-all duration-300 flex items-center gap-2"
+                data-testid="button-linkedin-profile"
+                onClick={() => window.open("https://www.linkedin.com/in/pawe%C5%82-budzan-95892b173/", "_blank")}
               >
-                Download CV
+                <SiLinkedin className="w-5 h-5" />
+                LinkedIn Profile
               </Button>
             </div>
             
