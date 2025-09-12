@@ -61,7 +61,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Connect to n8n webhook
+      // Connect to n8n production webhook
       const n8nWebhookUrl = "https://n8n.aiconshub.com/webhook-test/e4c8d697-bfe9-42ca-8262-c13432b19c33";
       
       try {
