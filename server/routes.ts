@@ -95,7 +95,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
                           (n8nData.data && (n8nData.data.response || n8nData.data.message || n8nData.data.text));
         
         res.status(200).json({
-          response: aiResponse || "I received your message but the AI assistant didn't generate a response. This might be a configuration issue with the n8n workflow.",
+          response: aiResponse || "I received your message but couldn't generate a response. Please try again.",
           timestamp: new Date().toISOString()
         });
 
