@@ -83,6 +83,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
         const n8nData = await n8nResponse.json();
         
+        // Debug: Log what n8n actually returns
+        console.log("n8n response data:", JSON.stringify(n8nData, null, 2));
+        
         res.status(200).json({
           response: n8nData.response || n8nData.message || "I received your message but couldn't generate a response. Please try again.",
           timestamp: new Date().toISOString()
