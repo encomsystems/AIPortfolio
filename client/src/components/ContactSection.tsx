@@ -18,6 +18,38 @@ export default function ContactSection() {
     }
   };
 
+  const handleScheduleConsultation = () => {
+    // Scroll to chat section (in hero/home section)
+    scrollToSection("home");
+    
+    // Wait for scroll to complete, then trigger AI consultation
+    setTimeout(() => {
+      const chatInput = document.querySelector('[data-testid="chat-input"]') as HTMLInputElement;
+      const chatForm = chatInput?.closest('form');
+      
+      if (chatInput && chatForm) {
+        // Set consultation message
+        const consultationMessage = "I'd like to schedule a consultation to discuss my AI automation needs and potential solutions for my business.";
+        chatInput.value = consultationMessage;
+        
+        // Trigger input change event
+        const event = new Event('input', { bubbles: true });
+        chatInput.dispatchEvent(event);
+        
+        // Focus on the input
+        chatInput.focus();
+        
+        // Auto-submit after a short delay to let user see the message
+        setTimeout(() => {
+          const sendButton = chatForm.querySelector('[data-testid="chat-send-button"]') as HTMLButtonElement;
+          if (sendButton && !sendButton.disabled) {
+            sendButton.click();
+          }
+        }, 1500);
+      }
+    }, 1000); // Wait 1 second for scroll to complete
+  };
+
   return (
     <section id="contact" className="py-16" data-testid="contact-section">
       <div className="max-w-4xl mx-auto px-8">
@@ -76,6 +108,7 @@ export default function ContactSection() {
                 Free 30-minute consultation to discuss your AI automation needs and potential solutions.
               </p>
               <Button 
+                onClick={handleScheduleConsultation}
                 className="bg-gradient-to-r from-primary to-accent text-white font-semibold px-8 py-3 hover:shadow-lg transition-all duration-300"
                 data-testid="button-schedule-consultation"
               >

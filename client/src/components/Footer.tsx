@@ -1,3 +1,6 @@
+import { Mail } from "lucide-react";
+import { SiLinkedin } from "react-icons/si";
+
 export default function Footer() {
   return (
     <footer className="py-12 bg-card border-t border-border" data-testid="footer">
@@ -22,11 +25,25 @@ export default function Footer() {
           </div>
           <div>
             <h4 className="font-bold mb-4">Connect</h4>
-            <div className="space-y-2 text-sm text-muted-foreground">
-              <div>LinkedIn</div>
-              <div>GitHub</div>
-              <div>Twitter</div>
-              <div>Email</div>
+            <div className="space-y-2 text-sm">
+              <a 
+                href="https://www.linkedin.com/in/pawe%C5%82-budzan-95892b173/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                data-testid="link-linkedin"
+              >
+                <SiLinkedin className="w-4 h-4" />
+                LinkedIn
+              </a>
+              <a 
+                href="mailto:p.budzan@aiconshub.com" 
+                className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                data-testid="link-email"
+              >
+                <Mail className="w-4 h-4" />
+                Email
+              </a>
             </div>
           </div>
         </div>
