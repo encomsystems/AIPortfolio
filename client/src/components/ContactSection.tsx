@@ -31,29 +31,29 @@ export default function ContactSection() {
             <div className="glass-effect p-8 rounded-2xl">
               <h3 className="text-2xl font-bold mb-6 text-center">Get in Touch</h3>
               <div className="space-y-6">
-                <div className="flex items-center space-x-4">
+                <div className="flex flex-col items-center space-y-2">
                   <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
                     <Mail className="w-6 h-6 text-primary" />
                   </div>
-                  <div>
+                  <div className="text-center">
                     <div className="font-semibold text-lg">Email</div>
-                    <div className="text-muted-foreground">hello@ai-expert.com</div>
+                    <div className="text-muted-foreground">p.budzan@aiconshub.com</div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-4">
+                <div className="flex flex-col items-center space-y-2">
                   <div className="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
                     <Zap className="w-6 h-6 text-accent" />
                   </div>
-                  <div>
+                  <div className="text-center">
                     <div className="font-semibold text-lg">Response Time</div>
                     <div className="text-muted-foreground">Within 24 hours</div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-4">
+                <div className="flex flex-col items-center space-y-2">
                   <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
                     <MapPin className="w-6 h-6 text-primary" />
                   </div>
-                  <div>
+                  <div className="text-center">
                     <div className="font-semibold text-lg">Location</div>
                     <div className="text-muted-foreground">Remote & On-site</div>
                   </div>
