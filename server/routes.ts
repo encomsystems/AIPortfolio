@@ -61,67 +61,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Connect to n8n production webhook with retry logic
+      // Connect to n8n production webhook
       const n8nWebhookUrl = "https://n8n.aiconshub.com/webhook/e4c8d697-bfe9-42ca-8262-c13432b19c33";
       
-      const maxRetries = 2;
-      let lastError;
-      
-      for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        try {
-          const n8nResponse = await fetch(n8nWebhookUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              message: message,
-              timestamp: new Date().toISOString(),
-              source: 'portfolio_chat',
-              attempt: attempt
-            })
-          });
+      try {
+        const n8nResponse = await fetch(n8nWebhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: message,
+            timestamp: new Date().toISOString(),
+            source: 'portfolio_chat'
+          })
+        });
 
-          if (!n8nResponse.ok) {
-            throw new Error(`n8n webhook returned ${n8nResponse.status}`);
-          }
-
-          // Success - break out of retry loop
-          const n8nData = await n8nResponse.json();
-          
-          // Handle n8n array response format: [{"output": "response"}]
-          const aiResponse = Array.isArray(n8nData) && n8nData[0]?.output || 
-                            n8nData.response || 
-                            n8nData.message || 
-                            n8nData.text || 
-                            n8nData.output || 
-                            n8nData.result ||
-                            n8nData.ai_response ||
-                            n8nData.content ||
-                            (n8nData.data && (n8nData.data.response || n8nData.data.message || n8nData.data.text));
-          
-          return res.status(200).json({
-            response: aiResponse || "I received your message but couldn't generate a response. Please try again.",
-            timestamp: new Date().toISOString()
-          });
-          
-        } catch (error) {
-          lastError = error;
-          console.error(`n8n webhook attempt ${attempt}/${maxRetries} failed:`, error);
-          
-          if (attempt < maxRetries) {
-            // Wait 1 second before retry
-            await new Promise(resolve => setTimeout(resolve, 1000));
-          }
+        if (!n8nResponse.ok) {
+          throw new Error(`n8n webhook returned ${n8nResponse.status}`);
         }
+
+        const n8nData = await n8nResponse.json();
+        
+        // Handle n8n array response format: [{"output": "response"}]
+        const aiResponse = Array.isArray(n8nData) && n8nData[0]?.output || 
+                          n8nData.response || 
+                          n8nData.message || 
+                          n8nData.text || 
+                          n8nData.output || 
+                          n8nData.result ||
+                          n8nData.ai_response ||
+                          n8nData.content ||
+                          (n8nData.data && (n8nData.data.response || n8nData.data.message || n8nData.data.text));
+        
+        res.status(200).json({
+          response: aiResponse || "I received your message but couldn't generate a response. Please try again.",
+          timestamp: new Date().toISOString()
+        });
+
+      } catch (n8nError) {
+        console.error("Error calling n8n webhook:", n8nError);
+        
+        // Fallback response if n8n is unavailable
+        res.status(200).json({
+          response: "I'm currently experiencing technical difficulties with my AI system. Please try again in a moment, or feel free to contact me directly through the contact form.",
+          timestamp: new Date().toISOString()
+        });
       }
-      
-      // All retries failed - return fallback response
-      console.error("All n8n webhook attempts failed:", lastError);
-      res.status(200).json({
-        response: "I'm currently experiencing technical difficulties with my AI system. Please try again in a moment, or feel free to contact me directly through the contact form.",
-        timestamp: new Date().toISOString()
-      });
 
     } catch (error) {
       console.error("Error processing chat message:", error);
